@@ -16,14 +16,18 @@ RUN apt-get update && apt-get install -y build-essential \
     stunnel
 
 # Install minion-backend
-RUN git clone https://github.com/marumari/minion-backend.git ${MINION_BACKEND}
-RUN mkdir -p ${MINION_BACKEND}
+RUN git clone https://github.com/mozilla/minion-backend.git ${MINION_BACKEND}
+# RUN mkdir -p ${MINION_BACKEND}
 COPY run.sh ${MINION_BACKEND}/run.sh
 RUN chmod 755 ${MINION_BACKEND}/run.sh
 RUN cd ${MINION_BACKEND}; python setup.py develop
 
+# With Docker, we want Minion to listen on 0.0.0.0
+RUN mkdir /etc/minion
+COPY backend.json /etc/minion/backend.json
+
 # Setup directory for MongoDB
 RUN mkdir -p /data/db
 
-# Startup RabbitMQ, MongoDB, and Minion
+# Start up RabbitMQ, MongoDB, and Minion
 CMD ${MINION_BACKEND}/run.sh 

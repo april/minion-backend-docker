@@ -10,7 +10,7 @@ sleep 5
 
 # Start Minion
 cd $MINION_BACKEND
-scripts/minion-backend-api runserver &
+scripts/minion-backend-api runserver -a 0.0.0.0 &
 scripts/minion-state-worker &
 scripts/minion-scan-worker &
 scripts/minion-plugin-worker &
