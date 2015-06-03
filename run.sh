@@ -16,6 +16,10 @@ scripts/minion-scan-worker &
 scripts/minion-plugin-worker &
 scripts/minion-scanschedule-worker &
 scripts/minion-scanscheduler &
+sleep 5
+
+# Create the initial administrator and database
+scripts/minion-db-init "$MINION_ADMINISTRATOR_EMAIL" "$MINION_ADMINISTRATOR_NAME" y
 
 # Follow some logs
 tail -f /var/log/mongodb/mongodb.log /var/log/rabbitmq/*.log
